@@ -12,7 +12,7 @@
         // Example of using the render function
         const drawDiagram = async function (element, graphDefinition) {
             const { svg } = await mermaid.render(element.id, graphDefinition);
-            element.innerHTML = svg;
+            return svg;
         };
     </script>
     <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
@@ -32,7 +32,7 @@
             const mapped = grist.mapColumnNames(record);
             console.log("mapped", mapped);
             const mermaid_el = document.getElementById('mermaid');
-            await drawDiagram(mapped.mermaid)
+            drawDiagram(mapped.mermaid).then( svg => {mermaid_el.innerHTML = svg;});
         });
     </script>
 
