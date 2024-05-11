@@ -5,10 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true });
-    </script>
+
     <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
 </head>
 
@@ -26,9 +23,12 @@
             const mapped = grist.mapColumnNames(record);
             console.log("mapped", mapped);
             const mermaid_el_id = 'mermaid';
-            const { svg, bindFunctions } = mermaidAPI.render(mermaid_el_id, mapped.mermaid);
-            document.getElementById(mermaid_el_id).innerHTML = svg;
+            document.getElementById(mermaid_el_id).innerHTML = mapped.mermaid;
         });
+    </script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
     </script>
 
 </body>
