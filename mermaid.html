@@ -7,13 +7,6 @@
     <title>Document</title>
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: false });
-
-        // Example of using the render function
-        const drawDiagram = async function (element, graphDefinition) {
-            const { svg } = await mermaid.render(element.id, graphDefinition);
-            return svg;
-        };
     </script>
     <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
 </head>
@@ -31,8 +24,9 @@
             console.log("record", record);
             const mapped = grist.mapColumnNames(record);
             console.log("mapped", mapped);
-            const mermaid_el = document.getElementById('mermaid');
-            drawDiagram(mapped.mermaid).then( svg => {mermaid_el.innerHTML = svg;});
+            const mermaid_el_id = 'mermaid';
+            const { svg, bindFunctions } = mermaidAPI.render(mermaid_el_id, mapped.mermaid);
+            document.getElementById(mermaid_el_id).innerHTML = svg;
         });
     </script>
 
