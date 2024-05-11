@@ -19,7 +19,7 @@
     <script>
         grist.ready({requiredAccess: 'read table'}, {columns: ['mermaid']});
         grist.onRecord(function(record) {
-          document.getElementById('readout').innerHTML = record.mermaid;
+          document.getElementById('mermaid').innerHTML = record.mermaid;
         });
       </script>
 
