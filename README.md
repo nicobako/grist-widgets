@@ -4,4 +4,4 @@ A collection of custom grist widgets.
 
 Still a work in progress.
 
-[Mermaid.js Integration](./mermaid.html)
+- [Mermaid.js Integration](./mermaid.html)

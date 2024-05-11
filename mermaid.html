@@ -17,9 +17,13 @@
         B-->D(fa:fa-spinner);
     </pre>
     <script>
-        grist.ready({requiredAccess: 'read table'}, {columns: ['mermaid']});
+        grist.ready({requiredAccess: 'read table'}, {columns: [{mermaid: 'Mermaid Text'}]});
         grist.onRecord(function(record) {
-          document.getElementById('mermaid').innerHTML = record.mermaid;
+            console.log("record", record);
+            const mapped = grist.mapColumnNames(record);
+            console.log("mapped", mapped);
+            const mermaid_el = document.getElementById('mermaid');
+            mermaid_el.innerHTML = mapped.mermaid;
         });
       </script>
 
