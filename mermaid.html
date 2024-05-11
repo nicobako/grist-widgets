@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     </script>
     <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
 </head>
+
 <body>
     <pre id="mermaid" class="mermaid">
         graph LR
@@ -17,15 +19,16 @@
         B-->D(fa:fa-spinner);
     </pre>
     <script>
-        grist.ready({requiredAccess: 'read table'}, {columns: [{mermaid: 'Mermaid Text'}]});
-        grist.onRecord(function(record) {
+        grist.ready({ requiredAccess: 'read table' }, { columns: [{ name: "mermaid", title: "Mermaid Text", type: "Text", allowMultiple: false, description: "The Text to be insterted in the mermaid diagram", }] });
+        grist.onRecord(function (record) {
             console.log("record", record);
             const mapped = grist.mapColumnNames(record);
             console.log("mapped", mapped);
             const mermaid_el = document.getElementById('mermaid');
             mermaid_el.innerHTML = mapped.mermaid;
         });
-      </script>
+    </script>
 
 </body>
+
 </html>
