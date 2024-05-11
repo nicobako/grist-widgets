@@ -24,11 +24,12 @@
             console.log("mapped", mapped);
             const mermaid_el_id = 'mermaid';
             document.getElementById(mermaid_el_id).innerHTML = mapped.mermaid;
+            mermaid.init()
         });
     </script>
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true });
+        mermaid.initialize({ startOnLoad: false });
     </script>
 
 </body>
