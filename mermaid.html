@@ -27,7 +27,7 @@
             el.innerHTML = mapped.mermaid;
             mermaid.run({
                 suppressErrors: true,
-            }).then((res) => {console.log(res)});
+            }).resolve();
     </script>
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
