@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+I'm<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -10,14 +10,12 @@
 </head>
 
 <body>
-    <div id="mermaid">
-    <pre class="mermaid">
+    <pre id="mermaid" class="mermaid">
         graph LR
         A --- B
         B-->C[fa:fa-ban forbidden]
         B-->D(fa:fa-spinner);
     </pre>
-    </div>
     <script>
         grist.ready({ requiredAccess: 'read table', columns: ["mermaid"] });
         grist.onRecord(function (record) {
@@ -25,12 +23,13 @@
             const mapped = grist.mapColumnNames(record);
             console.log("mapped", mapped);
             const mermaid_el_id = 'mermaid';
-            document.getElementById(mermaid_el_id).innerHTML = `<pre class='mermaid'>${mapped.mermaid}</pre>`;
-            mermaid.initialize();
-        });
+            const el = document.getElementById(mermaid_el_id);
+            const graph = mapped.mermaid;
+            mermaid.render("graphDiv", graph).then( res => el.innerHTML = res.svg );
     </script>
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaidAPI.initialize({ startOnLoad: false });
     </script>
 
 </body>
