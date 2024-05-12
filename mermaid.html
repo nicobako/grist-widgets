@@ -24,7 +24,7 @@ I'm<!DOCTYPE html>
             console.log("mapped", mapped);
             const mermaid_el_id = 'mermaid';
             const el = document.getElementById(mermaid_el_id);
-            el.innerHtml = mapped;
+            el.innerHtml = mapped.mermaid;
             const graph = mapped.mermaid;
             mermaid.render("graphDiv", graph).then( res => el.innerHtml = res.svg );
     </script>
