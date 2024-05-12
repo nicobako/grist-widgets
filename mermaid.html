@@ -25,7 +25,7 @@
             const mapped = grist.mapColumnNames(record);
             console.log("mapped", mapped);
             const mermaid_el_id = 'mermaid';
-            document.getElementById(mermaid_el_id).innerHTML = `<pre class="mermaid">${mapped.mermaid}</pre>;
+            document.getElementById(mermaid_el_id).innerHTML = `<pre class='mermaid'>${mapped.mermaid}</pre>`;
             mermaid.initialize();
         });
     </script>
