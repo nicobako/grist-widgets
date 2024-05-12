@@ -25,7 +25,7 @@ I'm<!DOCTYPE html>
             const mermaid_el_id = 'mermaid';
             const el = document.getElementById(mermaid_el_id);
             const graph = mapped.mermaid;
-            mermaid.render("graphDiv", graph).then( res => el.innerHTML = res.svg );
+            mermaid.render("graphDiv", graph).then( res => el.innerHtml = res.svg );
     </script>
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
