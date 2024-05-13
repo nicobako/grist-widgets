@@ -10,8 +10,8 @@
 </head>
 
 <body>
+    <div id="mermaid-svg">Place Holder</div>
 
-    <pre id="mermaid" class="mermaid">
     </pre>
     <script>
         grist.ready({ requiredAccess: 'read table', columns: ["mermaid"] });
@@ -21,7 +21,7 @@
             console.log("mapped", mapped);
             const graphDefinition = mapped.mermaid;
             runMermaid(graphDefinition).then((svg) => {
-                document.getElementById("mermaid").innerHTML = svg;
+                document.getElementById("mermaid-svg").innerHTML = svg;
             })
 
         });
@@ -32,7 +32,7 @@
 
         async function runMermaid(graphDefinition) {
 
-            const { svg } = await mermaid.render('mermaid', graphDefinition);
+            const { svg } = await mermaid.render('graphDiv', graphDefinition);
             return svg;
         };
 
