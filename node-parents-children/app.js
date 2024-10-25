@@ -12,7 +12,8 @@ function initGrist() {
                 name: "parents",
                 type: "RefList",
             },
-        ]
+        ],
+        allowSelectBy: true,
     });
 
     grist.onRecord(function (record) {
