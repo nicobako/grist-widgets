@@ -34,14 +34,15 @@ function renderPage(mapped) {
 
 }
 
-function renderList(element, nodes){
-    clearList(element);
-    console.log(nodes);
+function renderList(listElement, nodes){
+    console.log("list element", listElement);
+    clearList(listElement);
+    console.log("nodes", nodes);
 }
 
-function clearList(list) {
-    while (list.firstChild) {
-      list.removeChild(list.firstChild);
+function clearList(listElement) {
+    while (listElement?.firstChild) {
+      listElement.removeChild(listElement.firstChild);
     }
   }
 
