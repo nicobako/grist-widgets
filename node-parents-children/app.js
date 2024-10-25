@@ -4,6 +4,7 @@ function initGrist(){
         console.log("record", record);
         const mapped = grist.mapColumnNames(record);
         // First check if all columns were mapped.
+        console.log("mapped", mapped);
         if (mapped) {
             renderPage(mapped);
         } else {
@@ -17,7 +18,7 @@ function initGrist(){
 
 function renderPage(mapped){
     const node = mapped.node;
-    console.log("")
+    console.log("node", node);
     document.getElementById("node").innerText = node;
 }
 
