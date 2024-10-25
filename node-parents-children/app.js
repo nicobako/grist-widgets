@@ -14,6 +14,7 @@ function initGrist() {
             },
         ]
     });
+
     grist.onRecord(function (record) {
         console.log("record", record);
         const mapped = grist.mapColumnNames(record);
@@ -35,7 +36,7 @@ function renderPage(mapped) {
     console.log("node", node);
 
     const nodeElement = document.getElementById("node");
-    nodeElement.innerText = node;
+    nodeElement.appendChild(renderNode(node));
 
     const parentsElement = document.getElementById("parents");
     const parents = mapped.parents;
@@ -65,11 +66,20 @@ function addNodesToList(listElement, nodes){
     nodes.forEach(node => {
         const listItem = document.createElement('li');
         console.log("DEBUG", "node being added to list", node)
-        nodeTextItem = document.createTextNode(node);
+        nodeTextItem = renderNode(node);
         listItem.appendChild(nodeTextItem);
-        listItem.textContent = node;
+        // listItem.textContent = node;
         listElement.appendChild(listItem);
     });
+}
+
+function renderNode(node){
+    nodeElement = document.createElement("span");
+    nodeElement.innerText = node;
+    nodeElement.addEventListener("click", function(ev){
+        grist.setCursor({"Node": node});
+    });
+    return nodeElement;
 }
 
 document.addEventListener("DOMContentLoaded", initGrist);
