@@ -78,7 +78,7 @@ function renderNode(node){
     nodeElement.innerText = node;
     nodeElement.addEventListener("click", function(ev){
         console.log("node clicked", node, ev);
-        grist.setCursor({"Node": node});
+        grist.setCursorPos({"Node": node});
     });
     return nodeElement;
 }
