@@ -77,6 +77,7 @@ function renderNode(node){
     nodeElement = document.createElement("span");
     nodeElement.innerText = node;
     nodeElement.addEventListener("click", function(ev){
+        console.log("node clicked", node, ev);
         grist.setCursor({"Node": node});
     });
     return nodeElement;
