@@ -1,5 +1,19 @@
 function initGrist() {
-    grist.ready({ requiredAccess: 'read table', columns: ["node", "children", "parents"] });
+    grist.ready({
+        requiredAccess: 'read table', columns: [
+            {
+                name: "node",
+            },
+            {
+                name: "children",
+                type: "RefList",
+            },
+            {
+                name: "parents",
+                type: "RefList",
+            },
+        ]
+    });
     grist.onRecord(function (record) {
         console.log("record", record);
         const mapped = grist.mapColumnNames(record);
@@ -34,16 +48,25 @@ function renderPage(mapped) {
 
 }
 
-function renderList(listElement, nodes){
+function renderList(listElement, nodes) {
     console.log("list element", listElement);
     clearList(listElement);
     console.log("nodes", nodes);
+    addNodesToList(listElement, nodes);
 }
 
 function clearList(listElement) {
     while (listElement?.firstChild) {
-      listElement.removeChild(listElement.firstChild);
+        listElement.removeChild(listElement.firstChild);
     }
-  }
+}
+function addNodesToList(listElement, nodes){
+    // Add items to the list
+    nodes.forEach(node => {
+        const listItem = document.createElement('li');
+        listItem,textContent = node;
+        listElement.appendChild(listItem);
+    });
+}
 
 document.addEventListener("DOMContentLoaded", initGrist);
