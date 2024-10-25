@@ -65,6 +65,8 @@ function addNodesToList(listElement, nodes){
     nodes.forEach(node => {
         const listItem = document.createElement('li');
         console.log("DEBUG", "node being added to list", node)
+        nodeTextItem = document.createTextNode(node);
+        listItem.appendChild(nodeTextItem);
         listItem.textContent = node;
         listElement.appendChild(listItem);
     });
