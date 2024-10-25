@@ -64,7 +64,7 @@ function addNodesToList(listElement, nodes){
     // Add items to the list
     nodes.forEach(node => {
         const listItem = document.createElement('li');
-        listItem,textContent = node;
+        listItem.textContent = node;
         listElement.appendChild(listItem);
     });
 }
