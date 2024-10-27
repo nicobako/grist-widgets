@@ -18,7 +18,7 @@ function initGrist() {
             {
                 title: "Data",
                 name: "data",
-                description: "Column with the data, a dictionary with {name:str, children: list[dict[name, id]], parents: list[dict[name, id]]}."
+                description: "Column with the data, a dictionary with {children: list[dict[title, id]], parents: list[dict[title, id]]}."
             }
         ],
         allowSelectBy: true,
@@ -41,16 +41,17 @@ function initGrist() {
 }
 
 function renderPage(mapped) {
+    console.log("rendering page", "mapped", mapped);
     const node = parseNode(mapped);
     const nodeElement = document.getElementById("node");
     renderList(nodeElement, [node])
 
-    const parents = mapped.parents.map((parent=>parseNode(parent)))
+    const parents = mapped.data.parents.map((parent=>parseNode(parent)))
     const parentsElement = document.getElementById("parents");
     renderList(parentsElement, parents);
     
     
-    const children = mapped.children.map((child=>parseNode(child)));
+    const children = mapped.data.children.map((child=>parseNode(child)));
     const childrenElement = document.getElementById("children");
     renderList(childrenElement, children);
 }
