@@ -14,7 +14,6 @@ function initGrist() {
                 title: "Title",
                 description: "The column with the title.",
                 name: "title",
-                type: "String",
             },
             {
                 title: "Data",
