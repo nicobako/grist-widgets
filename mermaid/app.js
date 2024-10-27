@@ -13,9 +13,7 @@ async function runMermaid(graphDefinition) {
 async function initGrist(){
     grist.ready({ requiredAccess: 'read table', columns: ["mermaid"] });
     grist.onRecord(function (record) {
-        console.log("record", record);
         const mapped = grist.mapColumnNames(record);
-        console.log("mapped", mapped);
         const graphDefinition = mapped.mermaid;
         runMermaid(graphDefinition).then((svg) => {
             document.getElementById("mermaid-svg").innerHTML = svg;

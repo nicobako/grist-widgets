@@ -1,17 +1,26 @@
+/**
+ * @typedef {Node}
+ * @type {object}
+ * @property {Number} id
+ */
+
+/**
+ * @returns {void}
+ */
 function initGrist() {
     grist.ready({
         requiredAccess: 'read table', columns: [
             {
-                name: "node",
+                title: "Title",
+                description: "The column with the title.",
+                name: "title",
+                type: "String",
             },
             {
-                name: "children",
-                type: "RefList",
-            },
-            {
-                name: "parents",
-                type: "RefList",
-            },
+                title: "Data",
+                name: "data",
+                description: "Column with the data, a dictionary with {name:str, children: list[dict[name, id]], parents: list[dict[name, id]]}."
+            }
         ],
         allowSelectBy: true,
     });
@@ -33,21 +42,18 @@ function initGrist() {
 }
 
 function renderPage(mapped) {
-    const node = mapped.node;
-    console.log("node", node);
-
+    const node = parseNode(mapped);
     const nodeElement = document.getElementById("node");
-    nodeElement.appendChild(renderNode(node));
+    renderList(nodeElement, [node])
 
+    const parents = mapped.parents.map((parent=>parseNode(parent)))
     const parentsElement = document.getElementById("parents");
-    const parents = mapped.parents;
     renderList(parentsElement, parents);
-
+    
+    
+    const children = mapped.children.map((child=>parseNode(child)));
     const childrenElement = document.getElementById("children");
-    const children = mapped.children;
     renderList(childrenElement, children);
-
-
 }
 
 function renderList(listElement, nodes) {
@@ -62,7 +68,7 @@ function clearList(listElement) {
         listElement.removeChild(listElement.firstChild);
     }
 }
-function addNodesToList(listElement, nodes){
+function addNodesToList(listElement, nodes) {
     // Add items to the list
     nodes.forEach(node => {
         const listItem = document.createElement('li');
@@ -74,12 +80,25 @@ function addNodesToList(listElement, nodes){
     });
 }
 
-function renderNode(node){
+
+/**
+ * 
+ * @param {object} data 
+ * @returns {Node}
+ */
+function parseNode(data) {
+    return {
+        title: String(data.title),
+        id: Number(data.id)
+    }
+}
+
+function renderNode(node) {
     nodeElement = document.createElement("span");
     nodeElement.innerText = node;
-    nodeElement.addEventListener("click", function(ev){
+    nodeElement.addEventListener("click", function (ev) {
         console.log("node clicked", node, ev);
-        grist.setCursorPos({"Node": node}).resolve();
+        grist.setCursorPos({ "Node": node }).resolve();
     });
     return nodeElement;
 }
