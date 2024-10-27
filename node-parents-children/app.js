@@ -44,14 +44,14 @@ function renderPage(mapped) {
     console.log("rendering page", "mapped", mapped);
     const node = parseNode(mapped);
     const nodeElement = document.getElementById("node");
-    renderList(nodeElement, [node])
+    renderList(nodeElement, [node]);
 
-    const parents = mapped.data.parents.map((parent=>parseNode(parent)))
+    const parents = mapped.data.parents.map((parent => parseNode(parent)));
     const parentsElement = document.getElementById("parents");
     renderList(parentsElement, parents);
-    
-    
-    const children = mapped.data.children.map((child=>parseNode(child)));
+
+
+    const children = mapped.data.children.map((child => parseNode(child)));
     const childrenElement = document.getElementById("children");
     renderList(childrenElement, children);
 }
@@ -72,7 +72,7 @@ function addNodesToList(listElement, nodes) {
     // Add items to the list
     nodes.forEach(node => {
         const listItem = document.createElement('li');
-        console.log("DEBUG", "node being added to list", node)
+        console.log("DEBUG", "node being added to list", node);
         nodeTextItem = renderNode(node);
         listItem.appendChild(nodeTextItem);
         // listItem.textContent = node;
@@ -90,7 +90,7 @@ function parseNode(data) {
     return {
         title: String(data.title),
         id: Number(data.id)
-    }
+    };
 }
 
 /**
