@@ -93,12 +93,17 @@ function parseNode(data) {
     }
 }
 
+/**
+ * 
+ * @param {Node} node 
+ * @returns 
+ */
 function renderNode(node) {
     nodeElement = document.createElement("span");
-    nodeElement.innerText = node;
+    nodeElement.innerText = node.title;
     nodeElement.addEventListener("click", function (ev) {
         console.log("node clicked", node, ev);
-        grist.setCursorPos({ "Node": node }).resolve();
+        grist.setCursorPos({ "rowId": node.id });
     });
     return nodeElement;
 }
