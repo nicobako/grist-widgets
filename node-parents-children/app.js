@@ -1,8 +1,19 @@
+//@ts-check
+
 /**
- * @typedef {Node}
- * @type {object}
- * @property {Number} id
+ * @interface
  */
+function Item() {
+    /** @type {Number | null} */
+    this.id;
+
+    /**@type {String} */
+    this.title;
+
+    /** @type {Item[]} */
+    this.items;
+}
+
 
 /**
  * @returns {void}
@@ -10,11 +21,6 @@
 function initGrist() {
     grist.ready({
         requiredAccess: 'read table', columns: [
-            {
-                title: "Title",
-                description: "The column with the title.",
-                name: "title",
-            },
             {
                 title: "Data",
                 name: "data",
@@ -30,7 +36,7 @@ function initGrist() {
         // First check if all columns were mapped.
         console.log("mapped", mapped);
         if (mapped) {
-            renderPage(mapped);
+            renderPage(mapped.data);
         } else {
             // Helper returned a null value. It means that not all
             // required columns were mapped.
@@ -40,72 +46,141 @@ function initGrist() {
 
 }
 
-function renderPage(mapped) {
-    console.log("rendering page", "mapped", mapped);
-    const node = parseNode(mapped);
-    const nodeElement = document.getElementById("node");
-    renderList(nodeElement, [node]);
+/**
+ *
+ * @param {any[]} data
+ */
+function renderPage(data) {
+    console.log("rendering page", "data", data);
+    const items = data.map((d)=>parseItem(d));
+    const contentElement = document.getElementById("content");
+    if (contentElement instanceof HTMLElement) {
+        clearElement(contentElement);
+        renderList(contentElement, items);
+    }
 
-    const parents = mapped.data.parents.map((parent => parseNode(parent)));
-    const parentsElement = document.getElementById("parents");
-    renderList(parentsElement, parents);
-
-
-    const children = mapped.data.children.map((child => parseNode(child)));
-    const childrenElement = document.getElementById("children");
-    renderList(childrenElement, children);
 }
 
-function renderList(listElement, nodes) {
-    console.log("list element", listElement);
-    clearList(listElement);
-    console.log("nodes", nodes);
-    addNodesToList(listElement, nodes);
+/**
+ *
+ * @param {HTMLElement} element
+ * @param {Item[]} items
+ */
+function renderList(element, items) {
+    console.log("render list", element, items);
+    const listElement = createUlElement()
+    element.appendChild(listElement);
+    addItemsToList(listElement, items);
 }
 
-function clearList(listElement) {
-    while (listElement?.firstChild) {
-        listElement.removeChild(listElement.firstChild);
+/**
+ *
+ * @param {HTMLUListElement} listElement
+ * @param {Item[]} items
+*/
+function addItemsToList(listElement, items) {
+    items.forEach(item => {
+        const listItem = document.createElement('li');
+        console.log("item being added to list", item);
+        const itemTextItem = renderItem(item);
+        listItem.appendChild(itemTextItem);
+        // listItem.textContent = item;
+        listElement.appendChild(listItem);
+        const childUlElement = createUlElement();
+        listElement.appendChild(childUlElement);
+        item.items.forEach((i)=>renderList(childUlElement, [i]))
+    });
+}
+
+/**
+ *
+ * @returns {HTMLUListElement}
+ */
+function createUlElement(){
+    return document.createElement("ul");
+}
+
+/**
+ *
+ * @param {HTMLElement} element
+ */
+function clearElement(element) {
+    while (element?.firstChild) {
+        element.removeChild(element.firstChild);
     }
 }
-function addNodesToList(listElement, nodes) {
-    // Add items to the list
-    nodes.forEach(node => {
-        const listItem = document.createElement('li');
-        console.log("DEBUG", "node being added to list", node);
-        nodeTextItem = renderNode(node);
-        listItem.appendChild(nodeTextItem);
-        // listItem.textContent = node;
-        listElement.appendChild(listItem);
-    });
-}
-
 
 /**
- * 
- * @param {object} data 
- * @returns {Node}
+ *
+ * @param {object} data
+ * @returns {Item}
  */
-function parseNode(data) {
-    return {
+function parseItem(data) {
+    console.log("Parsing item", data)
+    const item = {
         title: String(data.title),
-        id: Number(data.id)
+        id: null,
+        items: [],
     };
+    if (data?.item){
+        item.id = Number(data.id);
+    }
+    if (data.items){
+        item.items=data.items.map((d)=>parseItem(d));
+    }
+    return item;
 }
 
 /**
- * 
- * @param {Node} node 
- * @returns 
+ *
+ * @param {Item} item
+ * @returns
  */
-function renderNode(node) {
-    nodeElement = document.createElement("span");
-    nodeElement.innerText = node.title;
-    nodeElement.addEventListener("click", function (ev) {
-        console.log("node clicked", node, ev);
-        grist.setCursorPos({ "rowId": node.id });
+function renderItem(item) {
+    const itemElement = document.createElement("span");
+    itemElement.innerText = item.title;
+    itemElement.addEventListener("click", function (ev) {
+        console.log("item clicked", item, ev);
+        grist.setCursorPos({ "rowId": item.id });
     });
-    return nodeElement;
+    return itemElement;
 }
 
-document.addEventListener("DOMContentLoaded", initGrist);
+/** @typedef {Object[]} */
+const sampleData = [
+    {
+        title: "Sample Data",
+        id: 1,
+        items: [
+            {
+                title: "Children (no id)",
+                items: [
+                    {
+                        title: "First Child",
+                        id: 2,
+                    },
+                    {
+                        title: "Second Child",
+                        id:3,
+                    },
+                ]
+            },
+            {
+                title: "Parents (no id)",
+                items: [
+                    {
+                        title: "First Parent",
+                        id:4,
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        title: "Other List",
+        id: 5,
+    }
+]
+
+// document.addEventListener("DOMContentLoaded", initGrist);
+document.addEventListener("DOMContentLoaded", (ev)=>renderPage(sampleData));
