@@ -137,7 +137,9 @@ function parseItem(data) {
  * @returns
  */
 function renderItem(item) {
-    const itemElement = document.createElement("span");
+    // const itemElement = document.createElement("button")
+    // itemElement.classList.add("secondary");
+    const itemElement = document.createElement("mark");
     itemElement.innerText = item.title;
     itemElement.addEventListener("click", function (ev) {
         console.log("item clicked", item, ev);
@@ -182,5 +184,5 @@ const sampleData = [
     }
 ]
 
-// document.addEventListener("DOMContentLoaded", initGrist);
-document.addEventListener("DOMContentLoaded", (ev)=>renderPage(sampleData));
+document.addEventListener("DOMContentLoaded", initGrist);
+// document.addEventListener("DOMContentLoaded", (ev)=>renderPage(sampleData));
