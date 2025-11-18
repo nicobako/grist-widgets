@@ -17,7 +17,9 @@ function log(value) {
 async function initGrist() {
   grist.ready({ requiredAccess: "read table", columns: ["mermaid"] });
   grist.onRecord(function (record) {
+    log({ record });
     const mapped = grist.mapColumnNames(record);
+    log({ mapped });
     const graphDefinition = mapped.mermaid;
     log({ graphDefinition });
     runMermaid(graphDefinition).then((svg) => {
