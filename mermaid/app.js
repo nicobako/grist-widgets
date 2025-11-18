@@ -1,5 +1,13 @@
 import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/+esm";
 
+function ready(fn) {
+  if (document.readyState !== "loading") {
+    fn();
+  } else {
+    document.addEventListener("DOMContentLoaded", fn);
+  }
+}
+
 async function initMermaid() {
   mermaid.initialize({ startOnLoad: false });
 }
@@ -14,7 +22,7 @@ function log(value) {
   console.log("Mermaid-Plugin", value);
 }
 
-async function initGrist() {
+function initGrist() {
   grist.ready({ requiredAccess: "read table", columns: ["mermaid"] });
   grist.onRecord(function (record) {
     log({ record });
@@ -29,7 +37,7 @@ async function initGrist() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", initGrist);
+ready(initGrist);
 
 const testing = false;
 if (testing) {
